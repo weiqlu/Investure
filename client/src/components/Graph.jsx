@@ -1,5 +1,5 @@
 function Graph() {
-  return;
+  return <div>Hello</div>;
 }
 
 export default Graph;
