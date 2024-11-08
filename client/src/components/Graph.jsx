@@ -25,14 +25,12 @@ function Graph() {
           return item.TotalReturn;
         });
 
-        console.log(totalReturns);
-
         // data object for the chart
         const chartData = {
           labels: dates,
           datasets: [
             {
-              label: "Total Return (%)",
+              label: "Total Return",
               data: totalReturns,
               backgroundColor: "blue",
               borderColor: "blue",
@@ -64,6 +62,15 @@ function Graph() {
       tooltip: {
         enabled: true,
         backgroundColor: "#3b3b3b",
+        callbacks: {
+          /* formats the data point's y axis value to 4 digit places
+           to avoid the default rounding to 3 places */
+          label: function (context) {
+            let label = context.dataset.label || "";
+            label += ": " + context.parsed.y.toFixed(4) + "%";
+            return label;
+          },
+        },
       },
       // allows for zooming, panning, and dragging
       zoom: {
