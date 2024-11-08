@@ -4,12 +4,11 @@ const app = express();
 
 app.use(cors());
 const xlsx = require("xlsx"); // library to read/use excel files (Sheet.js)
+const { getJsDateFromExcel } = require("excel-date-to-js");
 
 // helper function to convert excel serial number to MM/DD/YYYY date format
 function ExcelDateToJSDate(serial) {
-  return new Date(
-    Math.round((serial - 25569) * 86400 * 1000) // converts to timestamp
-  ).toLocaleDateString(); // formats to MM/DD/YYYY
+  return getJsDateFromExcel(serial + 1).toLocaleDateString();
 }
 
 app.get("/investure", (req, res) => {
