@@ -1,5 +1,9 @@
 # Investure
 
+## Demo 
+
+Check out the live deployment here: https://investure.vercel.app/. 
+
 ## Initial Setup
 
 Prerequisites:
