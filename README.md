@@ -37,6 +37,15 @@ cd client
 npm run dev
 ```
 
+## Testing 
+
+To run the test suite: 
+
+```
+cd server
+npm test
+```
+
 ## Formatting
 
 This repository is formatted with Prettier.
