@@ -1,5 +1,124 @@
+import { useState, useEffect } from "react";
+import { Bar } from "react-chartjs-2";
+import { Chart } from "chart.js/auto";
+import zoomPlugin from "chartjs-plugin-zoom";
+import "../styles/Graph.css";
+// enables chartjs zoom functionality
+Chart.register(zoomPlugin);
+
 function Graph() {
-  return <div>Hello</div>;
+  // state to hold chart data
+  const [data, setdata] = useState(null);
+
+  // fetches data only once when mounted
+  useEffect(() => {
+    fetch("http://localhost:5000/investure")
+      .then((response) => response.json())
+      .then((data) => {
+        // creates an array of dates from fetched data
+        const dates = data.map((item) => {
+          return item.ReferenceDate;
+        });
+
+        // creates an array of total return values from fetched data
+        const totalReturns = data.map((item) => {
+          return item.TotalReturn;
+        });
+
+        console.log(totalReturns);
+
+        // data object for the chart
+        const chartData = {
+          labels: dates,
+          datasets: [
+            {
+              label: "Total Return (%)",
+              data: totalReturns,
+              backgroundColor: "blue",
+              borderColor: "blue",
+              borderWidth: 1,
+            },
+          ],
+        };
+        setdata(chartData);
+      });
+  }, []);
+
+  // configurations for the chart
+  const options = {
+    responsive: true, // resizes when container is changed
+    maintainAspectRatio: false, // turned off to fill the container for resizing
+    // graph customizations
+    plugins: {
+      title: {
+        display: true,
+        text: "Total Return",
+        font: {
+          size: 25,
+          family: "times new roman",
+        },
+      },
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: true,
+        backgroundColor: "#3b3b3b",
+      },
+      // allows for zooming, panning, and dragging
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+            speed: 0.2,
+          },
+        },
+        pan: {
+          enabled: true,
+        },
+        drag: {
+          enabled: true,
+        },
+      },
+    },
+    // graph axes (x,y)
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Date (mm/dd/yyyy)",
+          font: {
+            size: 16,
+            family: "times new roman",
+          },
+        },
+        ticks: {
+          maxRotation: 50,
+          minRotation: 50,
+        },
+      },
+      y: {
+        min: -50,
+        max: 3000,
+        title: {
+          display: true,
+          text: "Total Return (%)",
+          font: {
+            size: 16,
+            family: "times new roman",
+          },
+        },
+      },
+    },
+  };
+
+  return (
+    <div className="wrapper">
+      <div className="barChart">
+        {data && <Bar data={data} options={options} />}
+      </div>
+    </div>
+  );
 }
 
 export default Graph;

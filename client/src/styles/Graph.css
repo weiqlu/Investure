@@ -1,0 +1,10 @@
+.wrapper {
+  margin: 2%;
+  border-style: groove;
+  border-radius: 40px;
+}
+
+.barChart {
+  margin: 5px;
+  height: 91vh; /* for resizing purposes, the height of the graph*/
+}
