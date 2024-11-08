@@ -10,7 +10,7 @@ function Graph() {
   // state to hold chart data
   const [data, setdata] = useState(null);
 
-  // fetches data only once when mounted
+  // fetches graph data only once when mounted
   useEffect(() => {
     fetch("http://localhost:5000/investure")
       .then((response) => response.json())

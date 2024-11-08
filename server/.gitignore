@@ -11,3 +11,6 @@ npm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# output file created when running jest --coverage
+coverage
