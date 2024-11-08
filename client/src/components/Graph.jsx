@@ -12,7 +12,7 @@ function Graph() {
 
   // fetches graph data only once when mounted
   useEffect(() => {
-    fetch("http://localhost:5000/investure")
+    fetch("https://investure-backend.onrender.com/investure")
       .then((response) => response.json())
       .then((data) => {
         // creates an array of dates from fetched data

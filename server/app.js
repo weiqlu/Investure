@@ -2,7 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://investure.vercel.app/",
+  })
+);
 const xlsx = require("xlsx"); // library to read/use excel files (Sheet.js)
 const { getJsDateFromExcel } = require("excel-date-to-js");
 
