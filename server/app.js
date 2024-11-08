@@ -4,7 +4,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://investure.vercel.app/",
+    origin: "https://investure.vercel.app",
   })
 );
 const xlsx = require("xlsx"); // library to read/use excel files (Sheet.js)
