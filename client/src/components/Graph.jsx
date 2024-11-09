@@ -50,7 +50,7 @@ function Graph() {
     plugins: {
       title: {
         display: true,
-        text: "Total Return",
+        text: "S&P 500 Total Return",
         font: {
           size: 25,
           family: "times new roman",
