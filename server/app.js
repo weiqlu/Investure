@@ -47,7 +47,7 @@ const data = xlsx.utils.sheet_to_json(worksheet);
 const output = calculateReturn(data);
 
 // GET endpoint to retrieve the total returns for each day
-app.get("/totalreturn", (req, res) => {
+app.get("/investure", (req, res) => {
   res.json(output);
 });
 
