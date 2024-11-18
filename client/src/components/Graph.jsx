@@ -1,10 +1,34 @@
 import { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import { Chart } from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "../styles/Graph.css";
-// enables chartjs zoom functionality
+
+// registers chartjs zoom plugin (inline)
 Chart.register(zoomPlugin);
+
+// global plugin to draw a vertical line on hover
+const linePlugin = {
+  id: "linePugin",
+  // chartjs hook that is called after the chart is drawn to avoid the line being overwritten
+  afterDraw(Chart) {
+    // if there is a valid point -> redraws (ensuring only one line at a time)
+    if (Chart.tooltip.getActiveElements().length > 0) {
+      const ctx = Chart.ctx; // canvas
+      const dataPoint = Chart.tooltip.getActiveElements()[0]; // first element being hovered (in this case only 1)
+      const x = dataPoint.element.x; // get the x value for the element
+      const ceiling = Chart.chartArea.top;
+      const floor = Chart.chartArea.bottom;
+
+      ctx.beginPath(); // begins a new path on the new canvas to connect the lines
+      ctx.moveTo(x, ceiling);
+      ctx.lineTo(x, floor);
+      ctx.stroke(); // renders on canvas
+    }
+  },
+};
+
+Chart.register(linePlugin);
 
 function Graph() {
   // state to hold chart data
@@ -44,16 +68,25 @@ function Graph() {
 
   // configurations for the chart
   const options = {
+    animation: true,
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
     responsive: true, // resizes when container is changed
-    maintainAspectRatio: false, // turned off to fill the container for resizing
-    // graph customizations
+    maintainAspectRatio: false, // fill the container for resizing
+    interaction: {
+      mode: "index",
+      intersect: false,
+    },
     plugins: {
       title: {
         display: true,
         text: "S&P 500 Total Return",
         font: {
           size: 25,
-          family: "times new roman",
+          family: "Times New Roman",
         },
       },
       legend: {
@@ -61,10 +94,12 @@ function Graph() {
       },
       tooltip: {
         enabled: true,
+        mode: "index",
+        intersect: false,
         backgroundColor: "#3b3b3b",
         callbacks: {
-          /* formats the data point's y axis value to 4 digit places
-           to avoid the default rounding to 3 places */
+          /* formats the data point's y-axis value to 4 decimal places
+             to avoid the default rounding to 3 places */
           label: function (context) {
             let label = context.dataset.label || "";
             label += ": " + context.parsed.y.toFixed(4) + "%";
@@ -88,7 +123,6 @@ function Graph() {
         },
       },
     },
-    // graph axes (x,y)
     scales: {
       x: {
         title: {
@@ -96,7 +130,7 @@ function Graph() {
           text: "Date (mm/dd/yyyy)",
           font: {
             size: 16,
-            family: "times new roman",
+            family: "Times New Roman",
           },
         },
         ticks: {
@@ -112,7 +146,7 @@ function Graph() {
           text: "Total Return (%)",
           font: {
             size: 16,
-            family: "times new roman",
+            family: "Times New Roman",
           },
         },
       },
@@ -122,7 +156,7 @@ function Graph() {
   return (
     <div className="wrapper">
       <div className="barChart">
-        {data && <Bar data={data} options={options} />}
+        {data && <Line data={data} options={options} />}
       </div>
     </div>
   );
