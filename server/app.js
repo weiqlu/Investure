@@ -17,6 +17,8 @@ function excelDateToJSDate(serial) {
 
 // helper function to calculate the total returns for each day
 function calculateReturn(data) {
+
+
   let totalReturn = 1; // default multiplier
 
   // goes over each object and uses the total return formula
@@ -45,7 +47,7 @@ const data = xlsx.utils.sheet_to_json(worksheet);
 const output = calculateReturn(data);
 
 // GET endpoint to retrieve the total returns for each day
-app.get("/investure", (req, res) => {
+app.get("/totalreturn", (req, res) => {
   res.json(output);
 });
 
