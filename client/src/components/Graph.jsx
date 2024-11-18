@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import { Chart } from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "../styles/Graph.css";
@@ -51,7 +51,7 @@ function Graph() {
 
         // data object for the chart
         const chartData = {
-          labels: dates, // x axis 
+          labels: dates, // x axis
           datasets: [
             {
               label: "Total Return",
@@ -156,7 +156,7 @@ function Graph() {
   return (
     <div className="wrapper">
       <div className="barChart">
-        {data && <Bar data={data} options={options} />}
+        {data && <Line data={data} options={options} />}
       </div>
     </div>
   );
